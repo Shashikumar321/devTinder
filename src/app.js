@@ -1,19 +1,37 @@
 const express = require("express");
-
 const app = express();
+const { connectDB } = require("./config/database");
+const UserModel = require("./models/user");
 
-app.use("/", (req, res) => {
-    res.send("Hello from the dashboarddddd");
-})
+app.post("/signup", async (req, res) => {
+  const userObj = {
+    firstName: "Virat",
+    lastName: "kohli",
+    emailId: "v@gmail.com",
+    password: "Qwerty@123",
+    age: 36,
+    gender: "Male",
+  };
 
-app.use("/test", (req, res) => {
-    res.send("Test Test Test");
-})
+  //Creating a new instance of the UserModel
+  const user = new UserModel(userObj);
 
-app.use("/hello", (req, res) => {
-    res.send("Hello Hello Hello");
-})
-
-app.listen(4000, () => {
-    console.log("Server is running")
+  try {
+    await user.save();
+    res.send("User added successfully");
+  } catch (err) {
+    res.status(400).send("Error saving the user", err.message);
+  }
 });
+
+//Connecting to the database
+connectDB()
+  .then(() => {
+    console.log("Database connection successfull");
+    app.listen(7777, () => {
+      console.log("Server is running");
+    });
+  })
+  .catch((err) => {
+    console.error("Database cannot be connected");
+  });
