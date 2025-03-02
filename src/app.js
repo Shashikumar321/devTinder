@@ -14,7 +14,7 @@ app.post("/signup", async (req, res) => {
     await user.save();
     res.send("User added successfully");
   } catch (err) {
-    res.status(400).send("Error saving the user", err.message);
+    res.status(400).send("Error saving the user " + err.message);
   }
 });
 
@@ -54,21 +54,28 @@ app.delete("/user", async (req, res) => {
   }
 });
 
-
-
 //Post update single user
-app.patch("/user", async (req, res) => {
-  const userId = req.body.userId;
+app.patch("/user/:userId", async (req, res) => {
+  const userId = req.params?.userId;
   const data = req.body;
-  try {
-    await UserModel.findByIdAndUpdate(userId, data);
-    res.send("User updated successfully");
 
+  try {
+    const ALLOWED_UPDATES = ["photoUrl", "about", "gender", "age", "skills"];
+
+    const isUpdateAllowed = Object.keys(data).every((k) =>
+      ALLOWED_UPDATES.includes(k)
+    );
+  
+    if (!isUpdateAllowed) {
+      throw new Error("Update not allowed");
+    }
+
+    await UserModel.findByIdAndUpdate(userId, data, { runValidators: true });
+    res.send("User updated successfully");
   } catch (err) {
-    res.status(400).send("Error updating the user");
+    res.status(400).send("Error updating the user. " + err.message);
   }
 });
-
 
 //Connecting to the database
 connectDB()
