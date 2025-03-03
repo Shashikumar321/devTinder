@@ -5,8 +5,11 @@ const UserModel = require("./models/user");
 const { validateSignUpData } = require("./utils/validation");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
+const cookieParser = require("cookie-parser");
+const { userAuth } = require("./middlewares/auth");
 
 app.use(express.json());
+app.use(cookieParser());
 
 //Create a new user
 app.post("/signup", async (req, res) => {
@@ -47,9 +50,11 @@ app.post("/login", async (req, res) => {
       throw new Error("Invalid credentials");
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password)
+    const isPasswordValid = await user.validatePassword(password);
 
     if (isPasswordValid) {
+      const token = await user.getJWT();
+      res.cookie("token", token);
       res.send("User logged in successfully");
     } else {
       throw new Error("Invalid credentials");
@@ -59,64 +64,23 @@ app.post("/login", async (req, res) => {
   }
 });
 
-//Get all users
-app.get("/feed", async (req, res) => {
-  try {
-    const users = await UserModel.find({});
-    res.send(users);
-  } catch (err) {
-    res.status(400).send("Error fetching the users");
-  }
-});
 
-//Get single user details with emailId as input
-app.get("/user", async (req, res) => {
+app.get("/profile", userAuth, async (req, res) => {
   try {
-    const userDetails = await UserModel.find({ emailId: req.body.emailId });
-
-    if (userDetails.length === 0) {
-      res.status(404).send("user not found");
-    } else {
-      res.send(userDetails);
+    const user = req.user;
+    if (!user) {
+      throw new Error("User does not exist");
     }
+    res.send(user);
+
   } catch (err) {
-    res.status(400).send("Error fetching user details");
+    res.status(400).send("ERROR : " + err.message);
   }
-});
+})
 
-//Delete single user with emailId as input
-app.delete("/user", async (req, res) => {
-  const userId = req.body.userId;
-  try {
-    await UserModel.findByIdAndDelete(userId);
-    res.send("User deleted successfully");
-  } catch (err) {
-    res.status(400).send("Error Deleting the user");
-  }
-});
+app.post("sendConnectionRequest", userAuth, async (req, res) => {
 
-//Post update single user
-app.patch("/user/:userId", async (req, res) => {
-  const userId = req.params?.userId;
-  const data = req.body;
-
-  try {
-    const ALLOWED_UPDATES = ["photoUrl", "about", "gender", "age", "skills"];
-
-    const isUpdateAllowed = Object.keys(data).every((k) =>
-      ALLOWED_UPDATES.includes(k)
-    );
-
-    if (!isUpdateAllowed) {
-      throw new Error("Update not allowed");
-    }
-
-    await UserModel.findByIdAndUpdate(userId, data, { runValidators: true });
-    res.send("User updated successfully");
-  } catch (err) {
-    res.status(400).send("Error updating the user. " + err.message);
-  }
-});
+})
 
 //Connecting to the database
 connectDB()
