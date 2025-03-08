@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema(
         values: [
           "male",
           "female",
-          "other",
+          "others",
           "Male",
           "Female",
           "Others",
