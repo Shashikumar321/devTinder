@@ -10,7 +10,16 @@ authRouter.post("/signup", async (req, res) => {
   try {
     validateSignUpData(req);
 
-    const { firstName, lastName, emailId, password, age, gender, about, skills } = req.body;
+    const {
+      firstName,
+      lastName,
+      emailId,
+      password,
+      age,
+      gender,
+      about,
+      skills,
+    } = req.body;
 
     const passwordHash = await bcrypt.hash(password, 10);
 
@@ -23,11 +32,16 @@ authRouter.post("/signup", async (req, res) => {
       age,
       gender,
       skills,
-      about
+      about,
     });
 
-    await user.save();
-    res.send("User added successfully");
+    const savedUser = await user.save();
+
+    if (savedUser) {
+      const token = await user.getJWT();
+      res.cookie("token", token);
+      res.json({ message: "User signed up successfully", data: savedUser });
+    }
   } catch (err) {
     res.status(400).send("ERROR : " + err.message);
   }

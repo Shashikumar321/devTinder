@@ -31,7 +31,7 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
       if (row.fromUserId._id.toString() === loggedInUser._id.toString()) {
         return row.toUserId;
       }
-      row.fromUserId;
+      return row.fromUserId;
     });
 
     res.json({ message: "Data fetched successfully ", connections: data });
@@ -65,7 +65,7 @@ userRouter.get("/feed", userAuth, async (req, res) => {
     const loggedInUser = req.user;
 
     const page = parseInt(req.query.page) || 1;
-    let limit = parseInt(req.query.limit) || 5;
+    let limit = parseInt(req.query.limit) || 50;
     limit = limit > 50 ? 50 : limit;
 
     const skip = (page - 1) * limit;
