@@ -1,0 +1,303 @@
+{
+	"info": {
+		"_postman_id": "dba5737e-d404-44be-a87d-c58b464d7244",
+		"name": "DevTinderAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29155396"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"mahendra singh\",\n    \"lastName\": \"dhoni\",\n    \"emailId\": \"msd@gmail.com\",\n    \"password\": \"Qwerty@123\",\n    \"age\": 45,\n    \"gender\": \"Male\",\n    \"skills\": [\"Cricket\", \"CSK\", \"Keeper\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:7777/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"emailId\": \"msd@gmail.com\",\n    \"password\": \"Qwerty@123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:7777/login",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:7777/logout",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "profile/view",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:7777/profile/view",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"profile",
+						"view"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "profile/edit",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"emailId\": \"s@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:7777/profile/edit",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"profile",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "profile/password/edit",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"emailId\": \"s@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:7777/profile/password/edit",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"profile",
+						"password",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:7777/request/send/ignored/67c58bd5b71f067d51e9db24",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"request",
+						"send",
+						"ignored",
+						"67c58bd5b71f067d51e9db24"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Review Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:7777/request/review",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"request",
+						"review"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user/requests/received",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:7777/user/requests/received",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"user",
+						"requests",
+						"received"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user/connections",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:7777/user/connections",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"user",
+						"connections"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "feed",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:7777/feed",
+					"host": [
+						"localhost"
+					],
+					"port": "7777",
+					"path": [
+						"feed"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
